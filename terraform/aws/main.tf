@@ -3,12 +3,13 @@ provider "aws" {
 }
 
 resource "aws_instance" "example" {
-  ami           = "ami-0c94855ba95c71c99" # Amazon Linux 2 AMI
-  instance_type = "t2.micro"
+  ami             = "ami-0c94855ba95c71c99" # Amazon Linux 2 AMI
+  instance_type   = "t2.micro"
   security_groups = [aws_security_group.open_sg.name]
 
   tags = {
-    Name = "ExampleInstance"
+    Name     = "ExampleInstance"
+    git_file = "terraform/aws/ec2.tf"
   }
 }
 
@@ -20,7 +21,7 @@ resource "aws_security_group" "open_sg" {
     from_port   = 0
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Open to the entire internet
+    cidr_blocks = ["0.0.0.0/0"] # Open to the entire internet
   }
 
   egress {
@@ -28,5 +29,8 @@ resource "aws_security_group" "open_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    git_file = "terraform/aws/ec2.tf"
   }
 }
